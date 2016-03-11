@@ -1,0 +1,124 @@
+﻿@model List<CaseMVC.Models.condition>
+
+@{
+    ViewBag.Title = "Conditions 列表";
+}
+<br />
+<h4>所屬模組與Case</h4>
+<div>模組: @ViewBag.FuncName</div>
+<div>Case: @ViewBag.CaseDescription</div>
+<hr />
+
+<h3>Conditions 列表</h3>
+<p>
+    @Html.ActionLink("新增10筆輸入列", "Index", new {cid= ViewBag.Cid, add=1})
+</p>
+@using (Html.BeginForm("Create", "conditions"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-xs-12 excel_table_wrapperDIV">
+            <table class="excel_table" style="width: 400px;">
+                <thead>
+                    <tr>
+                        <th>
+                            *@Html.DisplayNameFor(model => model.FirstOrDefault().condition_description)
+                        </th>
+                        <th style="width: 70px; text-align:center;"></th>
+                        <th style="display:none;"></th>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.EditorFor(modelItem => Model[i].condition_description, new { htmlAttributes = new { @style = "max-width: 100%;" } })
+                            </td>
+                            <td style="width: 70px; text-align:center;">
+                                <a style="cursor: pointer;" class="delButton btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteItemModal" data-id="@Model[i].cc_id">刪除</a>
+                            </td>
+                            <td style="display:none;">
+                                @Html.HiddenFor(modelItem => Model[i].c_id)
+                                @Html.HiddenFor(modelItem => Model[i].cc_id)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-top: 10px;">
+        <input type="submit" value="儲存" class="btn btn-primary" />
+    </div>
+
+    @*<div class="row">
+            <div class="col-xs-12" style="text-align: left;">
+                <input type="submit" value="儲存" class="btn btn-primary" />
+            </div>
+        </div>*@
+
+}
+
+
+<div class="modal fade" id="deleteItemModal" tabindex="-1" role="dialog" aria-labelledby="deleteItemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="deleteItemModalLabel">訊息</h4>
+            </div>
+            <div class="modal-body">
+                刪除此項目?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnDelete">刪除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success" role="alert" style="display:none;" id="deleteItemSuccess">
+    <strong>刪除成功!</strong>
+</div>
+
+<script>
+    $(function () {
+
+
+        $('#deleteItemModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var itemId = button.data('id') // Extract info from data-* attributes
+
+            $("#btnDelete").click(function () {
+                ajaxDeleteFunc(itemId);
+            });
+        })
+
+        function ajaxDeleteFunc(itemId)
+        {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("Delete", "conditions")",
+                ajaxasync: true,
+            data: { id: itemId },
+            headers: {
+                'RequestVerificationToken': '@CommonRazorFunctions.GetAntiForgeryToken()'
+            },
+            success: function () {
+
+                // Perform redirect
+                window.location.reload();
+            },
+            error: function (data) {
+                alert(data.x);
+            }
+        });
+
+        }
+
+    });
+</script>

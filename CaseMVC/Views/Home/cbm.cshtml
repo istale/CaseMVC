@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "cbm";
+}
+
+<style>
+    button {
+        height: 60px;
+    }
+
+</style>
+
+<br />
+<br />
+<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-3" style="text-align:center;">
+        <h4>生產與製造部門</h4>
+    </div>
+    <div class="col-md-3" style="text-align:center;">
+        <h4>配銷部門</h4>
+    </div>
+    <div class="col-md-3" style="text-align:center;">
+        <h4>財務部門</h4>
+    </div>
+</div>
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
+
+<div class="row">
+    <div class="col-md-1" style="vertical-align:middle; text-align:center;">
+        <h4>高<br/>階</h4>
+    </div>
+    <div class="col-md-9">
+        <button onclick="window.location.href='/ccases/index?f=1'" class="btn btn-block btn-default" data-level="3" data-department="1">策略</button>
+    </div>
+</div>
+<br />
+
+<div class="row">
+    <div class="col-md-1" style="vertical-align:middle; text-align: center;">
+        <h4>中<br />階</h4>
+    </div>
+    <div class="col-md-3">
+        <button onclick="window.location.href='/ccases/index?f=2'" class="btn btn-block btn-default" data-level="2" data-department="m">產品管理</button>
+        <button onclick="window.location.href='/ccases/index?f=3'" class="btn btn-block btn-default" data-level="2" data-department="m">製程規劃</button>
+    </div>
+    <div class="col-md-3">
+        <button onclick="window.location.href='/ccases/index?f=4'" class="btn btn-block btn-default" data-level="2" data-department="l">產品定價</button>
+        <button onclick="window.location.href='/ccases/index?f=5'" class="btn btn-block btn-default" data-level="2" data-department="l">配銷管理</button>
+    </div>
+    <div class="col-md-3">
+        <button onclick="window.location.href='/ccases/index?f=6'" class="btn btn-block btn-default" data-level="2" data-department="f" style="height: 125px;">財務管理</button>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-1" style="vertical-align:middle; text-align:center;">
+        <h4>低<br />層</h4>
+    </div>
+    <div class="col-md-3">
+        <button onclick="window.location.href='/ccases/index?f=7'" class="btn btn-block btn-default" data-level="1" data-department="m">產品製造</button>
+        <button onclick="window.location.href='/ccases/index?f=8'" class="btn btn-block btn-default" data-level="1" data-department="m">品質管理</button>
+        <button onclick="window.location.href='/ccases/index?f=9'" class="btn btn-block btn-default" data-level="1" data-department="m">採購</button>
+    </div>
+    <div class="col-md-3">
+        <button onclick="window.location.href='/ccases/index?f=10'" class="btn btn-block btn-default" data-level="1" data-department="l">運輸管理</button>
+        <button onclick="window.location.href='/ccases/index?f=11'" class="btn btn-block btn-default" data-level="1" data-department="l">存貨管理</button>
+        <button onclick="window.location.href='/ccases/index?f=12'" class="btn btn-block btn-default" data-level="1" data-department="l">顧客服務</button>
+    </div>
+    <div class="col-md-3">
+        <button onclick="window.location.href='/ccases/index?f=13'" class="btn btn-block btn-default" data-level="1" data-department="f">會計總帳</button>
+        <button onclick="window.location.href='/ccases/index?f=14'" class="btn btn-block btn-default" data-level="1" data-department="f">顧客帳戶</button>
+    </div>
+</div>
+
+
+@*<div class="row">
+    <div class="col-xs-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>生產與製造部門</th>
+                    <th>配銷部們</th>
+                    <th>財務部門</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>高階</td>
+                    <td colspan="3">
+                        <button onclick="window.location.href='/ccases/index?f=1'" class="btn btn-block btn-default" data-level="3" data-department="1">策略</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>中階</td>
+                    <td>
+                        <button onclick="window.location.href='/ccases/index?f=2'" class="btn btn-block btn-default" data-level="2" data-department="m">產品管理</button>
+                        <button onclick="window.location.href='/ccases/index?f=3'" class="btn btn-block btn-default" data-level="2" data-department="m">製程規劃</button>
+                    </td>
+                    <td>
+                        <button onclick="window.location.href='/ccases/index?f=4'" class="btn btn-block btn-default" data-level="2" data-department="l">產品定價</button>
+                        <button onclick="window.location.href='/ccases/index?f=5'" class="btn btn-block btn-default" data-level="2" data-department="l">配銷管理</button>
+                    </td>
+                    <td>
+                        <button onclick="window.location.href='/ccases/index?f=6'" class="btn btn-block btn-default" data-level="2" data-department="f">財務管理</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>低層</td>
+                    <td>
+                        <button onclick="window.location.href='/ccases/index?f=7'" class="btn btn-block btn-default" data-level="1" data-department="m">產品製造</button>
+                        <button onclick="window.location.href='/ccases/index?f=8'" class="btn btn-block btn-default" data-level="1" data-department="m">品質管理</button>
+                        <button onclick="window.location.href='/ccases/index?f=9'" class="btn btn-block btn-default" data-level="1" data-department="m">採購</button>
+                    </td>
+                    <td>
+                        <button onclick="window.location.href='/ccases/index?f=10'" class="btn btn-block btn-default" data-level="1" data-department="l">運輸管理</button>
+                        <button onclick="window.location.href='/ccases/index?f=11'" class="btn btn-block btn-default" data-level="1" data-department="l">存貨管理</button>
+                        <button onclick="window.location.href='/ccases/index?f=12'" class="btn btn-block btn-default" data-level="1" data-department="l">顧客服務</button>
+                    </td>
+                    <td>
+                        <button onclick="window.location.href='/ccases/index?f=13'" class="btn btn-block btn-default" data-level="1" data-department="f">會計總帳</button>
+                        <button onclick="window.location.href='/ccases/index?f=14'" class="btn btn-block btn-default" data-level="1" data-department="f">顧客帳戶</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>*@
+
+<script>
+    $(function () {
+
+        var userLevel = parseInt(@ViewBag.Level);
+        var userDepartment = '@ViewBag.Department';
+
+        $('button').each(function(){
+            var itemLevel = $(this).data('level');
+            var itemDepartment = $(this).data('department');
+
+            var intLevel = parseInt(itemLevel);
+
+            if (intLevel <= userLevel && userDepartment == itemDepartment) {
+                $(this).css('background-color', 'orange');
+            }else{
+                $(this).attr('disabled', 'disabled');
+            }
+
+            if (userLevel == 3) {
+                $(this).css('background-color', 'orange');
+                $(this).prop('disabled', null);
+            }
+        });
+    });
+</script>

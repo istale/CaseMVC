@@ -1,0 +1,593 @@
+﻿/*
+    <div class="row">
+        <div class="col-xs-12 excel_table_wrapperDIV">
+            <table class="excel_table">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().WorkLog_Date)
+                        </th>
+                        <th>
+                            *@Html.DisplayNameFor(model => model.FirstOrDefault().WorkLog_Content)
+                        </th>
+                        <th style="width: 80px;">
+                            *@Html.DisplayNameFor(model => model.FirstOrDefault().WorkLog_Hours)
+                        </th>
+                        <th style="width: 120px;">
+                            *@Html.DisplayNameFor(model => model.FirstOrDefault().WorkLog_ProjectCode)
+                        </th>
+                        <th style="width: 120px;">
+                            *@Html.DisplayNameFor(model => model.FirstOrDefault().WorkLog_JobCategoryName)
+                        </th>
+                        <th style="display:none;"></th>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.EditorFor(modelItem => Model[i].WorkLog_Date, new { htmlAttributes = new { @class = "jdatepicker" } })
+                                @Html.ValidationMessageFor(modelItem => Model[i].WorkLog_Date, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(modelItem => Model[i].WorkLog_Content, new { rows = 2, @class = "",@style="max-width: 100%;" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].WorkLog_Content, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.EditorFor(modelItem => Model[i].WorkLog_Hours, new { htmlAttributes = new {onclick = "this.setSelectionRange(0, this.value.length)",@style="text-align:center;" } })
+                                @Html.ValidationMessageFor(modelItem => Model[i].WorkLog_Hours, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => Model[i].WorkLog_ProjectID, (IEnumerable<SelectListItem>)ViewBag.ProjectSelector, null, new { @class = "" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].WorkLog_ProjectID, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => Model[i].WorkLog_JobCategoryID, (IEnumerable<SelectListItem>)ViewBag.JobCategorySelector, null, new { @class = "" })
+                                @Html.ValidationMessageFor(modelItem => Model[i].WorkLog_JobCategoryID, "", new { @class = "text-danger" })
+                            </td>
+                            <td style="display:none;">
+                                @Html.HiddenFor(modelItem => Model[i].WorkLog_ID)
+                                @Html.HiddenFor(modelItem => Model[i].WorkLog_MemberID)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    */
+
+.excel_table_wrapperDIV {
+    position: relative;
+}
+
+    .handsontable.htAutoColumnSize {
+        visibility: hidden;
+        left: 0;
+        position: absolute;
+        top: 0;
+    }
+
+    .excel_table_wrapperDIV table,
+    .excel_table_wrapperDIV tbody,
+    .excel_table_wrapperDIV thead,
+    .excel_table_wrapperDIV td,
+    .excel_table_wrapperDIV th,
+    .excel_table_wrapperDIV div {
+        box-sizing: content-box;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+    }
+
+        .excel_table_wrapperDIV table.excel_table {
+            border-collapse: separate;
+            /*it must be separate, otherwise there are offset miscalculations in WebKit: http://stackoverflow.com/questions/2655987/border-collapse-differences-in-ff-and-webkit*/
+            position: relative;
+            /*this actually only changes appearance of user selection - does not make text unselectable
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  /*user-select: none; /*no browser supports unprefixed version*/
+            border-spacing: 0;
+            margin: 0;
+            border-width: 0;
+            table-layout: fixed;
+            width: 100%;
+            outline-width: 0;
+            /* reset bootstrap table style. for more info see: https://github.com/warpech/jquery-handsontable/issues/224 */
+            max-width: none;
+            max-height: none;
+        }
+
+    .excel_table_wrapperDIV col {
+        width: 50px;
+    }
+
+        .excel_table_wrapperDIV col.rowHeader {
+            width: 50px;
+        }
+
+    .excel_table_wrapperDIV th,
+    .excel_table_wrapperDIV td {
+        border-right: 1px solid #CCC;
+        border-bottom: 1px solid #CCC;
+        height: 22px; /*icdt 原22px*/
+        empty-cells: show;
+        line-height: 21px; /*icdt 原21px*/
+        padding: 0 4px 0 4px;
+        /* top, bottom padding different than 0 is handled poorly by FF with HTML5 doctype */
+        background-color: #FFF;
+        vertical-align: top;
+        overflow: hidden;
+        outline-width: 0;
+        /*white-space: pre-line;*/
+        /* preserve new line character in cell */
+    }
+
+        .excel_table_wrapperDIV td.htInvalid {
+            -webkit-transition: background 0.75s ease;
+            transition: background 0.75s ease;
+            background-color: #ff4c42;
+        }
+
+        .excel_table_wrapperDIV th:last-child {
+            /*Foundation framework fix*/
+            border-right: 1px solid #CCC;
+            border-bottom: 1px solid #CCC;
+        }
+
+        .excel_table_wrapperDIV tr:first-child th.htNoFrame,
+        .excel_table_wrapperDIV th:first-child.htNoFrame,
+        .excel_table_wrapperDIV th.htNoFrame {
+            border-left-width: 0;
+            background-color: white;
+            border-color: #FFF;
+        }
+
+        .excel_table_wrapperDIV th:first-child,
+        .excel_table_wrapperDIV td:first-child,
+        .excel_table_wrapperDIV .htNoFrame + th,
+        .excel_table_wrapperDIV .htNoFrame + td {
+            border-left: 1px solid #CCC;
+        }
+
+    .excel_table_wrapperDIV tr:first-child th,
+    .excel_table_wrapperDIV tr:first-child td {
+        border-top: 1px solid #CCC;
+    }
+
+    .excel_table_wrapperDIV thead tr:last-child th {
+        border-bottom-width: 0;
+    }
+
+    .excel_table_wrapperDIV thead tr.lastChild th {
+        border-bottom-width: 0;
+    }
+
+    .excel_table_wrapperDIV th {
+        background-color: #EEE;
+        color: #222;
+        text-align: center;
+        font-weight: normal;
+        white-space: nowrap;
+    }
+
+    .excel_table_wrapperDIV thead th {
+        padding: 0;
+    }
+
+    .excel_table_wrapperDIV th.active {
+        background-color: #CCC;
+    }
+
+    .excel_table_wrapperDIV thead th .relative {
+        position: relative;
+        padding: 2px 4px;
+    }
+
+    /* plugins */
+
+    .excel_table_wrapperDIV .manualColumnMover {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: transparent;
+        width: 5px;
+        height: 25px;
+        z-index: 999;
+        cursor: move;
+    }
+
+    .excel_table_wrapperDIV th .manualColumnMover:hover,
+    .excel_table_wrapperDIV th .manualColumnMover.active {
+        background-color: #88F;
+    }
+
+    .excel_table_wrapperDIV .manualColumnResizer {
+        position: absolute;
+        top: 0;
+        cursor: col-resize;
+    }
+
+    .excel_table_wrapperDIV .manualColumnResizerHandle {
+        background-color: transparent;
+        width: 5px;
+        height: 25px;
+    }
+
+    .excel_table_wrapperDIV .manualColumnResizer:hover .manualColumnResizerHandle,
+    .excel_table_wrapperDIV .manualColumnResizer.active .manualColumnResizerHandle {
+        background-color: #AAB;
+    }
+
+    .excel_table_wrapperDIV .manualColumnResizerLine {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: #AAB;
+        display: none;
+        width: 0;
+        border-right: 1px dashed #777;
+    }
+
+    .excel_table_wrapperDIV .manualColumnResizer.active .manualColumnResizerLine {
+        display: block;
+    }
+
+    .excel_table_wrapperDIV .columnSorting:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    /* border line */
+
+    .excel_table_wrapperDIV .wtBorder {
+        position: absolute;
+        font-size: 0;
+    }
+
+    .excel_table_wrapperDIV td.area {
+        background-color: #EEF4FF;
+    }
+
+    /* fill handle */
+
+    .excel_table_wrapperDIV .wtBorder.corner {
+        font-size: 0;
+        cursor: crosshair;
+    }
+
+    .excel_table_wrapperDIV .htBorder.htFillBorder {
+        background: red;
+        width: 1px;
+        height: 1px;
+    }
+
+.handsontableInput {
+    border: 2px solid #5292F7;
+    outline-width: 0;
+    margin: 0;
+    padding: 1px 4px 0 2px;
+    font-family: Arial, Helvetica, sans-serif;
+    /*repeat from .excel_table_wrapperDIV (inherit doesn't work with IE<8) */
+    line-height: 1.3em;
+    /*repeat from .excel_table_wrapperDIV (inherit doesn't work with IE<8) */
+    font-size: inherit;
+    -webkit-box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);
+    resize: none;
+    /*below are needed to overwrite stuff added by jQuery UI Bootstrap theme*/
+    display: inline-block;
+    color: #000;
+    border-radius: 0;
+    background-color: #FFF;
+    /*overwrite styles potentionally made by a framework*/
+}
+
+.handsontableInputHolder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.htSelectEditor {
+    -webkit-appearance: menulist-button !important;
+    position: absolute;
+}
+
+/*
+TextRenderer readOnly cell
+*/
+
+.excel_table_wrapperDIV .htDimmed {
+    color: #777;
+}
+
+/*
+TextRenderer placeholder value
+*/
+
+.excel_table_wrapperDIV .htPlaceholder {
+    color: #999;
+}
+
+/*
+AutocompleteRenderer down arrow
+*/
+
+.excel_table_wrapperDIV .htAutocompleteArrow {
+    float: right;
+    font-size: 10px;
+    color: #EEE;
+    cursor: default;
+    width: 16px;
+    text-align: center;
+}
+
+.excel_table_wrapperDIV td .htAutocompleteArrow:hover {
+    color: #777;
+}
+
+/*
+CheckboxRenderer
+*/
+
+.excel_table_wrapperDIV .htCheckboxRendererInput.noValue {
+    opacity: 0.5;
+}
+
+/*
+NumericRenderer
+*/
+
+.excel_table_wrapperDIV .htNumeric {
+    text-align: right;
+}
+
+/*context menu rules*/
+
+ul.context-menu-list {
+    color: black;
+}
+
+    ul.context-menu-list li {
+        margin-bottom: 0;
+        /*Foundation framework fix*/
+    }
+
+/**
+ * dragdealer
+ */
+
+.excel_table_wrapperDIV .dragdealer {
+    position: relative;
+    width: 9px;
+    height: 9px;
+    background: #F8F8F8;
+    border: 1px solid #DDD;
+}
+
+    .excel_table_wrapperDIV .dragdealer .handle {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        background: #C5C5C5;
+    }
+
+    .excel_table_wrapperDIV .dragdealer .disabled {
+        background: #898989;
+    }
+
+/**
+ * excel_table_wrapperDIV in Handsontable
+ */
+
+.excel_table_wrapperDIV .excel_table_wrapperDIV .wtHider {
+    padding: 0 0 5px 0;
+}
+
+.excel_table_wrapperDIV .excel_table_wrapperDIV table {
+    -webkit-box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/**
+ * excel_table_wrapperDIV listbox theme
+ */
+
+.handsontable.listbox {
+    margin: 0;
+}
+
+    .handsontable.listbox table {
+        border: 1px solid #ccc;
+        border-collapse: separate;
+        background: white;
+    }
+
+    .handsontable.listbox th,
+    .handsontable.listbox tr:first-child th,
+    .handsontable.listbox tr:last-child th,
+    .handsontable.listbox tr:first-child td,
+    .handsontable.listbox td {
+        border-width: 0;
+    }
+
+    .handsontable.listbox th,
+    .handsontable.listbox td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+        .handsontable.listbox td.htDimmed {
+            cursor: default;
+            color: inherit;
+            font-style: inherit;
+        }
+
+    .handsontable.listbox .wtBorder {
+        visibility: hidden;
+    }
+
+    .handsontable.listbox tr td.current,
+    .handsontable.listbox tr:hover td {
+        background: #eee;
+    }
+
+.htContextMenu {
+    display: none;
+    position: absolute;
+}
+
+    .htContextMenu table.excel_table {
+        outline: 1px solid #bbb;
+    }
+
+    .htContextMenu .wtBorder {
+        visibility: hidden;
+    }
+
+    .htContextMenu table tbody tr td {
+        background: white;
+        border-width: 0;
+        padding: 4px 6px 0px 6px;
+        cursor: pointer;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+        .htContextMenu table tbody tr td:first-child {
+            border: 0;
+        }
+
+        .htContextMenu table tbody tr td.htDimmed {
+            font-style: normal;
+            color: #323232;
+        }
+
+        .htContextMenu table tbody tr td.current {
+            background: rgb(233, 233, 233);
+        }
+
+        .htContextMenu table tbody tr td.htSeparator {
+            border-top: 1px solid #bbb;
+            height: 0;
+            padding: 0;
+        }
+
+        .htContextMenu table tbody tr td.htDisabled {
+            color: #999;
+        }
+
+            .htContextMenu table tbody tr td.htDisabled:hover {
+                background: white;
+                color: #999;
+                cursor: default;
+            }
+
+.excel_table_wrapperDIV td.htSearchResult {
+    background: #fcedd9;
+    color: #583707;
+}
+
+/*WalkontableDebugOverlay*/
+
+.wtDebugHidden {
+    display: none;
+}
+
+.wtDebugVisible {
+    display: block;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-name: wtFadeInFromNone;
+    animation-duration: 0.5s;
+    animation-name: wtFadeInFromNone;
+}
+
+@keyframes wtFadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes wtFadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+.excel_table_wrapperDIV tbody td {
+    margin: 0;
+    padding: 0;
+    padding-right: 12px;
+}
+
+.excel_table_wrapperDIV input {
+    border: none;
+    width: 100%;
+    height: 100%;
+    font-family: Verdana, Helvetica, Arial, FreeSans, sans-serif;
+    font-size: 12px;
+    padding: 0 4px 0 4px;
+}
+
+.excel_table_wrapperDIV textarea {
+    border: none;
+    width: 100%;
+    height: 100%;
+    line-height: 20px;
+    font-family: Verdana, Helvetica, Arial, FreeSans, sans-serif;
+    font-size: 12px;
+    padding: 1px 4px 1px 4px;
+}
+
+    .excel_table_wrapperDIV textarea::-webkit-resizer {
+        display: none;
+    }
+
+
+.excel_table_wrapperDIV select {
+    /*border: none;
+    width: 100%;
+    height: 100%;
+    font-family: Verdana, Helvetica, Arial, FreeSans, sans-serif;
+    padding: 0 4px 0 4px;*/
+    
+    /*font-size:12px;*/
+}
+
+.excel_table_wrapperDIV input:focus {
+    border: 2px solid #5292F7;
+    outline: none;
+}
+
+
+
+   

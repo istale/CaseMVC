@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    li {
+        display: block;
+    }
+
+        li:before {
+            /*Using a Bootstrap glyphicon as the bullet point*/
+            content: "\e006";
+            font-family: 'Glyphicons Halflings';
+            font-size: 9px;
+            float: left;
+            margin-top: 2px;
+            margin-left: -17px;
+            color: black;
+        }
+</style>
+
+@if (Request.Cookies["PassCard"] == null)
+{
+
+    <div class="jumbotron">
+        @*<h1>Case</h1>*@
+        <p class="lead">請登入以使用系統</p>
+    </div>
+}
+else
+{
+    <br />
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            <h2>Which department do you belong?</h2>
+        </div>
+    </div>
+    <hr style="height:1px;border:none;color:#333;background-color:#333;" />
+    <div class="row">
+        <div class="col-md-12">
+            <div style="width: 300px; margin: 0 auto;">
+                <form action="get" method="get"></form>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" value="m">生產與製造部門</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" value="l">配銷部門</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" value="f">財務部門</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul style="width: 500px; margin: 0 auto;">
+                <li>
+                    生產與製造部門包含產品管理、製程規劃、產品製造、品質管理、採購等
+                </li>
+                <li>
+                    配銷部門包括產品定價、配銷管理、運輸管理、存貨管理、顧客服務等
+                </li>
+                <li>
+                    財務部門包括財務管理、會計總帳、顧客帳戶等
+                </li>
+            </ul>
+        </div>
+    </div>
+
+}
+
+<script>
+    $(function () {
+
+        $('input:radio').change(
+            function () {
+                var theValue = $(this).val();
+                window.location.href = '/home/cbm?d=' + theValue;
+            }
+        );
+
+    });
+</script>
